@@ -6,7 +6,6 @@ import "primeicons/primeicons.css";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import CKEditor from '@ckeditor/ckeditor5-vue';
 import PrimeVue from 'primevue/config';
 
 import AutoComplete from 'primevue/autocomplete';
@@ -106,10 +105,11 @@ import TreeTable from 'primevue/treetable';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import VirtualScroller from 'primevue/virtualscroller';
 
+import Editor from 'primevue/editor';
+
 
 
 createApp(App)
-    .use(CKEditor)
     .use(PrimeVue, { ripple: true })
     .use(ConfirmationService)
     .use(ToastService)
@@ -122,6 +122,7 @@ createApp(App)
     .directive('focustrap', FocusTrap)
 
 .component('Accordion', Accordion)
+    .component('Editor', Editor)
     .component('AccordionTab', AccordionTab)
     .component('AutoComplete', AutoComplete)
     .component('Avatar', Avatar)
