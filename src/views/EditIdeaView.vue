@@ -1,11 +1,10 @@
 <template>
     <div id="app">
+        <Button @click="get_categories">TEST</Button>
 
-        <div class="p-inputgroup flex-1">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-            </span>
+        <div class=" p-float-label">
             <InputText v-model="form_info.label" type="text" size="large" placeholder="Название" />
+            <!-- <label>Название</label> -->
         </div>
 
         <div class="p-inputgroup flex-1 ">
@@ -45,6 +44,9 @@
             <Calendar id="calendar-24h" v-model="form_info.begin_date" showTime hourFormat="24" showIcon placeholder="Начало сбора"/>
             <Calendar id="calendar-24h" v-model="form_info.end_date" showTime hourFormat="24" showIcon placeholder="Конец сбора"/>
         </div>
+        <div class="p-inputgroup flex-1 ">
+            <Dropdown v-model="form_info.category" :options="nodes" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+        </div>
 
         <Editor v-model="value" editorStyle="height: 320px" />
 
@@ -56,11 +58,17 @@
         <div>
             {{form_info}}
         </div>
+
+
+        <div>
+            {{info}}
+        </div>
     </div>
 </template>
 
 <script>
-    
+    import axios from 'axios'
+
     export default {
         name: 'app',
         data() {
@@ -89,8 +97,31 @@
                     is_fin_checked: false,
                     is_halyk_checked: false,
                     is_legal_checked: false,
-                }
+                },
+
+                nodes: []
             };
+        },
+        methods:{
+            
+            async get_categories(){
+                console.log(">>> start test")
+                try {
+                    this.info = await axios.get('http://127.0.0.1:8000/blog/categories/').data;
+                    console.log(this.info);
+                } catch (error) {
+                    console.error(error);
+                }
+                // axios
+                // .get('http://127.0.0.1:8000/blog/categories/')
+                // .then(response => (this.info = response))
+                // .catch(error => console.log(error));
+                console.log(">>> end test")
+            }
+        },
+        mounted() {
+            this.get_categories()
+
         }
     }
 </script>
