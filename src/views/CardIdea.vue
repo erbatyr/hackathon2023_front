@@ -1,10 +1,10 @@
 <template>
     <div>
-       
         
         <Card v-if="idea">
             <template #title> 
                 <h1>{{idea.label}} </h1>
+                <hr>
                 
                 <small>
                     {{ idea.short_description }}
@@ -43,7 +43,8 @@
                             </AccordionTab>
                         </Accordion>
                     </span>
-                    <Button type="button" label="Инвестировать" severity="success"></Button>
+
+                    <Button label="Инвестировать" icon="pi pi-credit-card" @click="visible = true" severity="success" />
 
                 </div>
                 
@@ -57,11 +58,46 @@
             </template>
         </Card>
 
+
+        <Toast position="to-center" group="bl" />
+
+        <Dialog v-model:visible="visible" modal header="Инвестировать" :style="{ width: '50vw' }">
+
+            <!-- {{ new_invest }} -->
+            <div class="card flex flex-column  gap-3">
+                <div class="p-inputgroup flex-1">
+                   
+                    <Dropdown  v-model="new_invest.card" :options="bank_cards" optionLabel="name" placeholder="Выбор карты" class="w-full md:w-14rem">
+                        <template #option="slotProps">
+                            <div class="flex align-items-center">
+                                <div>{{ slotProps.option.name }} - {{ slotProps.option.code }}</div>
+                            </div>
+                        </template>
+                    </Dropdown>
+                </div>
+                <br>
+                <span class="p-float-label">
+                    <Textarea v-model="new_invest.comment" rows="5" cols="100"  />
+                    <label>Комментарий</label>
+                </span>
+
+                <div class="p-inputgroup flex-1">
+                    <span class="p-inputgroup-addon">Сумма</span>
+                    <InputNumber v-model="new_invest.sum" placeholder="Целевая сумма" />
+                    <span class="p-inputgroup-addon">тг</span>
+                </div>
+                
+                <Button label="Отправить" icon="pi pi-check" iconPos="right" @click="on_pop()"  severity="success" />
+            </div>
+        </Dialog>
+
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    // import { useToast } from "primevue/usetoast";
+
 
     export default {
         name: 'app',
@@ -69,9 +105,34 @@
             return {
                 idea_id: this.$route.params.id,
                 idea: null,
+                visible: false,
 
                 me: null,
-                bank_cards: []
+                bank_cards: [
+                    {   
+                        id: 1,
+                        name: "Основная карта",
+                        code: "4405 6397 8488 5351"
+                    },
+                    {
+                        id: 2,
+                        name: "Карта халык",
+                        code: "4405 6397 8488 8888"
+                    },
+                    {
+                        id: 3,
+                        name: "Корпаративная карта",
+                        code: "4405 6397 8488 7777"
+                    },
+                ],
+                
+                new_invest: {
+                    card: null,
+                    comment: null,
+                    sum: null,
+
+                },
+
             };
         },
         methods:{
@@ -101,10 +162,36 @@
             formate_date(date){
                 console.log( date);
                 return date.substring(0, 10);
+            },
+
+            on_pop(){
+                this.visible = false
+                this.idea.invests.push(
+                {
+                    "id": 100,
+                    "card": {
+                        "id": 1,
+                        "user": {
+                            "id": 2,
+                            "username": "User1",
+                            "first_name": "",
+                            "last_name": "",
+                            "email": ""
+                        },
+                        "name": "Aisa Rodriguez",
+                        "account": "4452678234446898"
+                    },
+                    "comment": this.new_invest.comment,
+                    "create_date": "2023-09-24T13:50:57.901673Z",
+                    "sum_of_invest": this.new_invest.sum,
+                    "idea": 1
+                })
+                // toast.add({ severity: 'success', summary: 'Info Message', detail: 'Message Content', group: 'bl', life: 3000 });
             }
         },
         mounted() {
             this.get_idea_by()
+            
         }
     }
 </script>
