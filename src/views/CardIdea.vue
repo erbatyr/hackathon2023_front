@@ -11,12 +11,49 @@
                 </small>
             </template>
             <template #content>
-                <div style="background-color: lightblue;">
-                    sfaskdjfkljlksdf
+                <div style="background-color: lightblue; height: 50px;" class="flex align-items-center justify-content-center">
+                    <span>
+                        <Rating v-model="idea.raiting" :cancel="false" disabled />
+                    </span>                 
+                </div>
+                <div style=" height: 30px;"></div>
+
+                <div class="flex flex-column md:flex-row md:justify-content-between row-gap-3">
+                    <div>
+                        <h2>Сумма</h2>
+                        <p>{{ idea.target_sum }}/{{ get_invest_sum(idea.invests) }}</p>
+                        <div hidden> {{ idea.percent =  get_procent(idea.target_sum, get_invest_sum(idea.invests))}}</div>
+                        <span>
+                            <Slider v-model="idea.percent" class="w-14rem" deactivate />
+                        </span>
+
+                      
+                    </div>
+                    <span>
+                        <Accordion style="width: 600px;" :activeIndex="0">
+                            <AccordionTab header="Инвесторы">
+                                <span v-for="invest in idea.invests" :key="invest.id">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between row-gap-3">
+                                        <span>{{ invest.card.user.username }}</span>
+                                        <span>{{ invest.comment }}</span>
+                                        <span>{{ invest.sum_of_invest }}</span>
+
+                                    </div>
+                                </span>
+                            </AccordionTab>
+                        </Accordion>
+                    </span>
+                    <Button type="button" label="Инвестировать" severity="success"></Button>
+
                 </div>
                 
-                <span v-html="idea.description" >
-                </span>
+                <div>
+                    
+                </div>
+
+                <div class="flex align-items-center justify-content-center"> 
+                    <span v-html="idea.description" ></span>
+                </div>
             </template>
         </Card>
 
