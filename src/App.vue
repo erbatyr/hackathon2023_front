@@ -32,7 +32,7 @@ export default {
     
         {
             label: 'Главная',
-            icon: '',
+            icon: 'pi pi-home',
             route: '/'
         },
         {

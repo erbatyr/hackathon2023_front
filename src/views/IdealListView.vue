@@ -17,7 +17,11 @@
             </template>
             <Column field="label" sortable header="Название">
                 <template #body="slotProps">
-                    <h3>{{ slotProps.data.label }} </h3>
+
+                    <h3>
+                        {{ slotProps.data.id }}
+                        <router-link :to="{ name: 'idea_page', params: { id: slotProps.data.id }}">{{ slotProps.data.label }}</router-link>
+                    </h3>
                     <p>{{ slotProps.data.short_description }} </p>
                     <small>Категория: {{ slotProps.data.category.name }} </small>
                 </template>
