@@ -1,11 +1,17 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EditIdeaView from '../views/EditIdeaView.vue'
+import IdeaListAll from '../views/IdealListView.vue'
 
 const routes = [{
         path: '/',
         name: 'home',
         component: HomeView
+    },
+    {
+        path: '/idea/all/list',
+        name: 'idea_list',
+        component: IdeaListAll
     },
     {
         path: '/edit',

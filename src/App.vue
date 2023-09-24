@@ -1,10 +1,55 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+      <Menubar :model="items">
+          <template #start>
+              <img alt="logo" src="./assets/logo.png" height="40" class="mr-2" />
+          </template>
+          <template #item="{ label, item, props, root, hasSubmenu }">
+              <router-link v-if="item.route" v-slot="routerProps" :to="item.route" custom>
+                  <a :href="routerProps.href" v-bind="props.action">
+                      <span v-bind="props.icon" />
+                      <span v-bind="props.label">{{ label }}</span>
+                  </a>
+              </router-link>
+              <a v-else :href="item.url" :target="item.target" v-bind="props.action">
+                  <span v-bind="props.icon" />
+                  <span v-bind="props.label">{{ label }}</span>
+                  <span :class="[hasSubmenu && (root ? 'pi pi-fw pi-angle-down' : 'pi pi-fw pi-angle-right')]" v-bind="props.submenuicon" />
+              </a>
+          </template>
+          <template #end>
+              <!-- <InputText placeholder="Search" type="text" /> -->
+          </template>
+      </Menubar> 
+
   <router-view/>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      items: [
+    
+        {
+            label: 'Главная',
+            icon: '',
+            route: '/'
+        },
+        {
+            label: 'Список идей',
+            icon: 'pi pi-star-fill',
+            route: '/idea/all/list'
+        },
+        {
+            label: 'Создать',
+            icon: 'pi pi-palette',
+            route: '/edit'
+        }
+    ]
+    }
+  }
+}
+</script>
 
 <style>
 #app {

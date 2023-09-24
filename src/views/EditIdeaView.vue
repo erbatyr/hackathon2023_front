@@ -1,8 +1,6 @@
 <template>
     <div id="app">
-        <Button @click="get_categories">TEST</Button>
-
-        <div class=" p-float-label">
+        <div class=" p-inputgroup flex-1">
             <InputText v-model="form_info.label" type="text" size="large" placeholder="Название" />
             <!-- <label>Название</label> -->
         </div>
